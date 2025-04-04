@@ -4,6 +4,9 @@ const https = require('https');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const organizationRouter = require('./routes/organizationRoutes');
+const userRouter = require('./routes/userRoutes');
+const authRouter = require('./routes/authRoutes');
 
 const app = express();
 
@@ -27,5 +30,9 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 });
+
+app.use('/organizations', organizationRouter);
+app.use('/users', userRouter);
+app.use('/auth',authRouter);
 
 module.exports = app;
