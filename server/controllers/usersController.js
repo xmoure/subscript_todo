@@ -22,7 +22,9 @@ exports.create = async (req, res) => {
         const safeUser = sanitizeUser(newUser);
         res.status(201).json(safeUser);
     } catch (error) {
-        console.error('Error creating user', error)
+        if (error.code === '23505' && error.constraint === 'users_email_unique') {
+            return res.status(409).json({ error: 'Email already exists' });
+        }
         res.status(500).json({ error: 'Error creating user' });
     }
 }
